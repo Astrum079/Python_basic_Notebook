@@ -1,4 +1,3 @@
-
 ####################################################
 # CNU 버거 키오스크
 # - 일자 : 2023년 05월 02일
@@ -10,7 +9,7 @@
 # - 결제 X
 # 화면 → Console창
 # - 사용자 최대 주문 : 버거 1개, 사이드 1개, 음료 1개로 고정
-
+from kiosk_fnc import print_sub_menu,choice_menu_num
 ##################
 # 1. 메뉴와 가격표 #
 ##################
@@ -19,9 +18,9 @@ burger_name = {1:"몬스터와퍼",2:"빅맥",3:"싸이버거"}
 side_name = {1:"감자튀김",2:"치즈스틱",3:"치킨너겟"}
 drink_name = {1:"사이다",2:"콜라",3:"환타"}
 
-burger_price = {1:"7000",2:"5000",3:"4000"}
-side_price = {1:"2000",2:"1500",3:"2000"}
-drink_price = {1:"1500",2:"1500",3:"1000"}
+burger_price = {1:7000,2:5000,3:4000}
+side_price = {1:2000,2:1500,3:2000}
+drink_price = {1:1500,2:1500,3:1000}
 
 ###################
 # 2. 주문 내역 저장 #
@@ -47,41 +46,64 @@ print("■"*40)
 # 조건 1~4 값인지 확인
 #   맞으면 넘어감
 #   틀리면 error 문구 출력, 다시 입력하기
-while True:
-    menu_num = int(input(">>번호 : "))
-    if menu_num >=1 and menu_num<=4:
-    #if menu_num=="1" or "2" or "3" or "4":
-                break
-    else:
-        print("error! 1~4 사이의 값만 입력해 주세요")
+
+menu_num = choice_menu_num(4)
 
 ###################
 # 3. 세부 메뉴 선택 #
 ###################
 if menu_num == 1:    # 세트
-    pass
-
+    print_sub_menu(burger_name, burger_price)
+    menu_num = choice_menu_num(3)
+    menu_save["burger"] = burger_name[menu_num]
+    price_save["burger"] = burger_price[menu_num]
+    print_sub_menu(side_name, side_price)
+    menu_num = choice_menu_num(3)
+    menu_save["side"] = side_name[menu_num]
+    price_save["side"] = side_price[menu_num]
+    print_sub_menu(drink_name, drink_price)
+    menu_num = choice_menu_num(3)
+    menu_save["drink"] = drink_name[menu_num]
+    price_save["drink"] = drink_price[menu_num]
 elif menu_num == 2:  # 햄버거
     # 1. 메뉴 보여주기
-    print("■" * 50)
-    for key, value in burger_name.items():
-        print(f"□ {key}. {value}")
+    print_sub_menu(burger_name,burger_price)
     # 2. 메뉴 선택하기
-    while True:
-        menu_num = int(input(">>번호 : "))
-        if menu_num >= 1 and menu_num <= 3:
-            # if menu_num=="1" or "2" or "3" or "4":
-            break
-        else:
-            print("error! 1~3 사이의 값만 입력해 주세요")
+    menu_num=choice_menu_num(3)
     # 3. 메뉴 저장하기
-    menu_save = burger_name[menu_num]
-    price_save = burger_price[menu_num]
+    menu_save["burger"] = burger_name[menu_num]
+    price_save["burger"] = burger_price[menu_num]
 
 elif menu_num == 3:  # 사이드
-    pass
-elif menu_num == 4:  # 음료
-    pass
+    print_sub_menu(side_name,side_price)
+    menu_num=choice_menu_num(3)
+    menu_save["side"] = side_name[menu_num]
+    price_save["side"] = side_price[menu_num]
 
-print(menu_save)
+elif menu_num == 4:  # 음료
+    print_sub_menu(drink_name,drink_price)
+    menu_num=choice_menu_num(3)
+    menu_save["drink"] = drink_name[menu_num]
+    price_save["drink"] = drink_price[menu_num]
+
+# print(menu_save)
 print(price_save)
+
+##########################
+# 5. 주문 메뉴 출력 및 계산 #
+##########################
+#total 주문 금액 계산
+total_price=0
+for price in price_save.values():
+     total_price += price
+
+print(total_price)
+
+print("■"*40)
+print("■■ 고객님이 주문하신 메뉴는")
+for i,menu in enumerate(menu_save.values()):
+    print(f"{i+1}.{menu}")
+print(f"으로 총 주문금액은 {total_price}원 입니다")
+print("■"*40)
+print("■■ 이용해주셔서 감사합니다. 또 방문해주세요.")
+print("■"*40)
