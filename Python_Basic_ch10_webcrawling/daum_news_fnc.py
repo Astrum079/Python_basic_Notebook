@@ -22,6 +22,6 @@ def get_news_title_and_content(url):
 #    contents.pop(-1)
     for tag in contents:
         content += tag.get_text()
-    print(f"뉴스 본문 : {content}")
+
 
     return title,content

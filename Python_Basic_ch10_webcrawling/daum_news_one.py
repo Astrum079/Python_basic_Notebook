@@ -27,7 +27,7 @@ from bs4 import BeautifulSoup
 # requests : 웹사이트 코드 복사 Get
 # BeautifulSoup : requests Get 해온 코드에서 필요한 정보만 find 해서 가져오기
 
-url="https://v.daum.net/v/20230509090530015"
+url="https://v.daum.net/v/20230516091448950"
 result=requests.get(url)
 #웹 브라우저                   다음 서버
 #          requests-------->
@@ -47,7 +47,7 @@ print(f"뉴스 제목 : {title}")
 print("="*100)
 content = ""  #전체 본문을 담을 변수
 contents.pop(-2)
-contents.pop(-1)
+# contents.pop(-1)
 for tag in contents:
     content += tag.get_text()
 
